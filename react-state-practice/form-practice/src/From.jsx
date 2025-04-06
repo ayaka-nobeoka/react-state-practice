@@ -6,7 +6,7 @@ function From() {
 
   const handleSubmit = (e) => {
     e.preventDefault(); // ページのリロード防止
-    setSubmittedName(inputValue); // 表示する名前として確定！
+    setSubmittedName(inputValue); // 現在の入力値を submittedName にコピー！
   };
 
   const handleInput = (e) => {
@@ -36,3 +36,7 @@ function From() {
 export default From;
 
 //ポイントは「状態を2つに分ける」こと！
+
+//💬 迷った時の合言葉
+// 🧠 「リアルタイムに変化するのが inputValue」
+// 🧠 「確定したら submittedName に移す」
