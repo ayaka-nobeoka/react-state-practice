@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-function Counter() {
-  const [count, setCount] = useState(0); //初期値は０
+function Counter({ start }) {
+  const [count, setCount] = useState(start); //初期値は０
   //useState で「数を覚える箱」を作る（stateという）👆
 
   const handleClick = () => {
@@ -9,11 +9,16 @@ function Counter() {
   };
   //ボタンを押すとcountを更新する関数👆
 
+  const resetCount = () => {
+    setCount(start);
+  };
+
   return (
     <div>
       <h2>カウントアップアプリ</h2>
       <p>現在のカウント: {count}</p>
       <button onClick={handleClick}>+1</button>
+      <button onClick={resetCount}>リセット</button>
     </div>
   );
 }
