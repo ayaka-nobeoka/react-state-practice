@@ -1,5 +1,6 @@
 import "./App.css";
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 function App() {
   const [input, setInput] = useState("");
@@ -14,11 +15,29 @@ function App() {
 
   const handleAdd = () => {
     if (input.trim() === "") return;
-    setItems([...items, input]);
+    const newItem = {
+      id: uuidv4(), // ⭐️ ここで毎回ユニークなIDが作られる！
+      text: input,
+      completed: true,
+    };
+    setItems([...items, newItem]);
     setInput("");
   };
+  //これで items は👉 { id: 数字, text: "入力されたテキスト" } という形でデータが入る！
+  const handleDelete = (id) => {
+    const newItems = items.filter((item) => item.id !== id);
+    setItems(newItems);
+  };
 
-  const handleDelete = () => {};
+  const handleComplete = (id) => {
+    const newTask = items.map((item) => {
+      if (item.id === id) {
+        return { ...item, completed: true }; // ✅ このitemだけcompletedをtrueに
+      }
+      return item; // ✅ 他はそのまま返す
+    });
+    setItems(newTask);
+  };
 
   return (
     <div>
@@ -27,24 +46,25 @@ function App() {
 　　　　✨ value={input}
 　　　　これは **「この入力欄の中の表示は、Reactの状態（input）で決めます」**という意味。
 　　　　つまり、見た目（DOM）を state がコントロールしてるということ。
-　　　　✨ onChange={handleChange}
+　　　　✨ onChange={handleChange}å
 　　　　入力欄に何か変化があったら（文字が入力されたら）、
 
 　　　　handleChange を呼んで、Reactの状態（input）を更新する。 */}
       <button onClick={handleAdd}>追加</button>
       <ul>
-        {items.map((item, index) => (
-          <li key={index}>
-            🐻 {item}
-            <button onClick={handleDelete}>削除</button>
-            <button>完了</button>
+        {items.map((item) => (
+          <li key={item.id}>
+            🐻 {item.text}
+            <button onClick={() => handleDelete(item.id)}>削除</button>
+            <button onClick={() => handleComplete(item.id)}>完了</button>
           </li>
         ))}
       </ul>
     </div>
   );
 }
-
+//item.text を表示するようにする！
+//handleDelete は無名関数で呼び出す！（onClick={() => handleDelete(item.id)} ←これ重要！）
 export default App;
 
 // 2つ目の setItems("") はいらないので 削除してOKです！
