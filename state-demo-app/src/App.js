@@ -18,7 +18,7 @@ function App() {
     const newItem = {
       id: uuidv4(), // ⭐️ ここで毎回ユニークなIDが作られる！
       text: input,
-      completed: true,
+      completed: false,
     };
     setItems([...items, newItem]);
     setInput("");
@@ -51,14 +51,28 @@ function App() {
 
 　　　　handleChange を呼んで、Reactの状態（input）を更新する。 */}
       <button onClick={handleAdd}>追加</button>
+      <h2>🧸 未完了タスク</h2>
       <ul>
-        {items.map((item) => (
-          <li key={item.id}>
-            🐻 {item.text}
-            <button onClick={() => handleDelete(item.id)}>削除</button>
-            <button onClick={() => handleComplete(item.id)}>完了</button>
-          </li>
-        ))}
+        {items
+          .filter((item) => !item.completed) // ✅ completedがfalseのものだけ
+          .map((item) => (
+            <li key={item.id}>
+              🐻 {item.text}
+              <button onClick={() => handleDelete(item.id)}>削除</button>
+              <button onClick={() => handleComplete(item.id)}>完了</button>
+            </li>
+          ))}
+      </ul>
+      <h2>🎀 完了タスク</h2>
+      <ul>
+        {items
+          .filter((item) => item.completed) // ✅ completedがtrueのものだけ
+          .map((item) => (
+            <li key={item.id}>
+              {item.text}
+              <button onClick={() => handleDelete(item.id)}>削除</button>
+            </li>
+          ))}
       </ul>
     </div>
   );
