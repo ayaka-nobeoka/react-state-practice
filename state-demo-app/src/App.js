@@ -1,12 +1,17 @@
 import "./App.css";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import TodoItem from "./TodoItem";
 
 function App() {
   const [input, setInput] = useState("");
   //input → 今の入力値（ユーザーが書いた内容）
   //setInput → 入力値を更新する関数
   const [items, setItems] = useState([]);
+
+  // このitemsとsetItemsは
+  // Appコンポーネントが「タスク一覧」を管理してる状態であって、
+  // TodoItem.jsのものではない!
 
   const handleChange = (e) => {
     setInput(e.target.value);
@@ -56,14 +61,15 @@ function App() {
         {items
           .filter((item) => !item.completed) // ✅ completedがfalseのものだけ
           .map((item) => (
-            <li key={item.id}>
-              🐻 {item.text}
-              <button onClick={() => handleDelete(item.id)}>削除</button>
-              <button onClick={() => handleComplete(item.id)}>完了</button>
-            </li>
+            <TodoItem
+              key={item.id}
+              item={item}
+              onDelete={handleDelete}
+              onComplete={handleComplete}
+            />
           ))}
       </ul>
-      <h2>🎀 完了タスク</h2>
+      <h2>🧺 完了タスク</h2>
       <ul>
         {items
           .filter((item) => item.completed) // ✅ completedがtrueのものだけ
