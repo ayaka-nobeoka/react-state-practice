@@ -5,6 +5,7 @@ import CounterButton from "./CounterButton";
 
 function App() {
   const [input, setInput] = useState("");
+  const [messages, setMessages] = useState([]);
   const [count, setCount] = useState(0);
   const handelClick = () => {
     setCount(count + 1);
@@ -13,6 +14,8 @@ function App() {
     setCount(count - 1);
   };
   const handelSubmit = () => {
+    if (input.trim() === "") return;
+    setMessages([...messages, input]);
     setInput("");
   };
   return (
@@ -25,10 +28,14 @@ function App() {
       ></input>
       <button onClick={handelSubmit}>submit</button>
       <CounterButton onIncrement={handelClick} onDecrease={handelMinus} />
-      <div>{input}</div>
+      <div>{messages}</div>
       <div>{count}</div>
     </div>
   );
 }
 
 export default App;
+
+//大事なポイント！それぞれの状態をもっていないといけないよ！！
+//入力中　→ input
+//保存するもの　→ messages
