@@ -1,6 +1,7 @@
 import "./App.css";
 import { useState } from "react";
 import CounterButton from "./CounterButton";
+import From from "./From";
 //ボタンを押すたびに数字が増える
 
 function App() {
@@ -20,12 +21,7 @@ function App() {
   };
   return (
     <div className="App">
-      <input
-        value={input}
-        onChange={(e) => {
-          setInput(e.target.value);
-        }}
-      ></input>
+      <From input={input} setInput={setInput} />
       <button onClick={handelSubmit}>submit</button>
       <CounterButton onIncrement={handelClick} onDecrease={handelMinus} />
       <div>{messages}</div>
